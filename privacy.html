@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meshlace — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,100&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#F6F6FB; --ink:#16203A; --text:#4A5570; --muted:#8A93A8; --accent:#5146E8; --line:#E6E7F0; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0E1424; --ink:#EEF1F8; --text:#B9C2D3; --muted:#7F8AA3; --accent:#8F88FF; --line:#222B45; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.65 "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width:720px; margin:0 auto; padding:24px 24px 72px; }
+  a { color:var(--accent); text-underline-offset:3px; }
+  .back { display:inline-block; margin:8px 0 32px; color:var(--text); text-decoration:none; font-size:15px; }
+  .back:hover { color:var(--ink); }
+  h1, h2 { font-family:"Fraunces", Georgia, serif; font-variation-settings:"SOFT" 100, "opsz" 96; color:var(--ink); font-weight:500; }
+  h1 { font-size:clamp(34px, 5vw, 46px); line-height:1.1; margin:0 0 6px; }
+  h2 { font-size:22px; margin:36px 0 8px; }
+  .date { color:var(--muted); font-size:15px; margin:0 0 28px; }
+  ul { padding-left:20px; }
+  li { margin:8px 0; }
+  strong { color:var(--ink); font-weight:600; }
+  .muted { color:var(--muted); font-size:14px; margin-top:40px; padding-top:20px; border-top:1px solid var(--line); }
+  @media (max-width:520px) { main { padding:16px 16px 56px; } }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="../">‹ Meshlace</a>
+  <h1>Privacy policy</h1>
+  <p class="date">Effective 10 November 2026</p>
+
+  <p>Meshlace lets phones send end-to-end encrypted messages to each other over Bluetooth, without internet,
+  SIM card or server. This page explains what that means for your data.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>We run <strong>no servers</strong>. There is no account, no sign-up, no phone number and no email.</li>
+    <li>We <strong>collect nothing</strong>: no analytics, no advertising, no tracking, no crash reports.</li>
+    <li>Release versions of the Android app <strong>cannot access the internet</strong> at all.</li>
+    <li>Your messages and contacts stay <strong>on your phone</strong>, encrypted.</li>
+  </ul>
+
+  <h2>What stays on your phone</h2>
+  <ul>
+    <li><strong>Your identity:</strong> cryptographic keys created on your phone and the name you choose.
+      The secret keys are kept in the Android Keystore and never leave the device.</li>
+    <li><strong>Contacts and messages:</strong> stored in an encrypted database on your phone.
+      They are not included in cloud backups.</li>
+    <li><strong>A technical event log</strong> used to diagnose Bluetooth problems. It contains message
+      identifiers and random device identifiers, never message text. It stays on your phone unless you choose
+      to share it yourself from the debug screen.</li>
+  </ul>
+
+  <h2>What other phones receive</h2>
+  <ul>
+    <li><strong>Your contacts</strong> receive the messages you send them, and delivery confirmations.
+      Only they can decrypt them.</li>
+    <li><strong>Nearby phones running Meshlace</strong> may carry your messages to reach a contact who is out of range.
+      They only see encrypted data and short random addresses that change every few hours. They cannot read
+      the content, see who wrote it, or identify the recipient. Carried messages are deleted when they expire
+      (24 hours by default).</li>
+    <li>Likewise, your phone may carry encrypted messages for other people, within strict storage limits.
+      You can turn the mesh off at any time.</li>
+    <li><strong>When you pair by QR code</strong>, your name and public keys are shared with the person who scans it.</li>
+  </ul>
+
+  <h2>Permissions and why we need them</h2>
+  <ul>
+    <li><strong>Bluetooth (scan, connect, advertise):</strong> to find nearby phones and exchange encrypted messages.
+      Scan results are not used to determine your location.</li>
+    <li><strong>Location</strong> (Android 11 and older only): Android requires it for Bluetooth scanning on these versions.
+      Meshlace does not use or store your location.</li>
+    <li><strong>Camera:</strong> only to scan a contact's QR code. Nothing is recorded or stored.</li>
+    <li><strong>Notifications:</strong> to show that the mesh is running and that a new message arrived.
+      Notifications never show the sender or the text.</li>
+    <li><strong>Foreground service:</strong> to keep relaying messages while the app is in the background.</li>
+  </ul>
+
+  <h2>What we can't protect against</h2>
+  <p>People nearby with Bluetooth equipment can notice that a phone is running Meshlace and see the timing and size
+  of transmissions, though not their content. Someone with access to your unlocked phone can read your messages.
+  A contact can copy or show messages you sent them. Delivery is not guaranteed if no phone carries the message
+  in time.</p>
+
+  <h2>Children</h2>
+  <p>Meshlace is not directed at children under 16.</p>
+
+  <h2>Deleting your data</h2>
+  <p>Uninstalling the app, or clearing its storage in Android settings, permanently deletes your identity,
+  contacts and messages from your phone. Because we hold no copy, we cannot recover them, and we have nothing
+  to delete on our side.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be published on this page with a new effective date.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: <a href="mailto:CONTACT-EMAIL">CONTACT-EMAIL</a></p>
+
+  <p class="muted">Meshlace is end-to-end encrypted using established, audited cryptographic libraries
+  (Ed25519, X25519, ChaCha20-Poly1305, HKDF-SHA-256).</p>
+</main>
+</body>
+</html>
