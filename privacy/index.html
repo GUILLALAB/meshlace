@@ -3,310 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meshlace — messages that travel from phone to phone</title>
-<meta name="description" content="Meshlace sends end-to-end encrypted messages over Bluetooth. No internet, no SIM card, no account.">
+<title>Meshlace — Privacy Policy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..600,100&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #F6F6FB;
-    --surface: #FFFFFF;
-    --ink: #16203A;
-    --text: #4A5570;
-    --muted: #8A93A8;
-    --accent: #5146E8;
-    --accent-soft: #ECEBFD;
-    --thread: #CFCBF6;
-    --node: #FFFFFF;
-    --node-ring: #B9B4F2;
-    --line: #E6E7F0;
-    --on-accent: #FFFFFF;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0E1424; --surface: #151D33; --ink: #EEF1F8; --text: #B9C2D3; --muted: #7F8AA3;
-      --accent: #8F88FF; --accent-soft: #23255A; --thread: #353A73; --node: #1B2440; --node-ring: #5B57B8; --line: #222B45; --on-accent: #0E1424;
-    }
-  }
-
+  :root { --bg:#F6F6FB; --ink:#16203A; --text:#4A5570; --muted:#8A93A8; --accent:#5146E8; --line:#E6E7F0; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0E1424; --ink:#EEF1F8; --text:#B9C2D3; --muted:#7F8AA3; --accent:#8F88FF; --line:#222B45; } }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 17px/1.65 "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: var(--accent); text-underline-offset: 3px; }
-  a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-  h1, h2, h3, .serif {
-    font-family: "Fraunces", Georgia, serif;
-    font-variation-settings: "SOFT" 100, "opsz" 96;
-    color: var(--ink); font-weight: 500; letter-spacing: -0.01em;
-  }
-
-  /* ---------- top ---------- */
-  nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
-  .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 600; font-size: 18px; }
-  .brand svg { width: 26px; height: 26px; }
-  nav .links { display: flex; gap: 22px; font-size: 15px; }
-  nav .links a { color: var(--text); text-decoration: none; }
-  nav .links a:hover { color: var(--ink); }
-
-  /* ---------- hero ---------- */
-  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; padding: 40px 0 72px; }
-  .hero h1 { font-size: clamp(40px, 5.4vw, 64px); line-height: 1.06; margin: 0 0 22px; }
-  .hero p.lede { font-size: 19px; max-width: 34em; margin: 0 0 30px; }
-  .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px;
-    border-radius: 999px; font-weight: 600; font-size: 16px; text-decoration: none;
-  }
-  .btn.primary { background: var(--accent); color: var(--on-accent); }
-  .btn.primary:hover { filter: brightness(1.08); }
-  .btn.quiet { color: var(--ink); background: transparent; border: 1px solid var(--line); }
-  .btn.quiet:hover { border-color: var(--node-ring); }
-  .note { font-size: 14px; color: var(--muted); margin-top: 14px; }
-
-  .lace { width: 100%; height: auto; display: block; }
-  .lace .thread { fill: none; stroke: var(--thread); stroke-width: 1.6; stroke-linecap: round; }
-  .lace .thread.faint { stroke-dasharray: 2 6; }
-  .lace .path { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; opacity: .35; }
-  .lace .node { fill: var(--node); stroke: var(--node-ring); stroke-width: 1.6; }
-  .lace .node.key { stroke: var(--accent); stroke-width: 2; }
-  .lace text { font: 600 13px "Figtree", sans-serif; fill: var(--muted); }
-  .lace .spark { fill: var(--accent); }
-  .lace .halo { fill: var(--accent); opacity: .18; }
-
-  /* the one moving thing: a message hopping A → B → C */
-  .hop { offset-path: path("M70 250 C 150 170, 220 160, 270 175 S 390 120, 450 95"); offset-rotate: 0deg; animation: hop 6s ease-in-out infinite; }
-  @keyframes hop {
-    0%, 8% { offset-distance: 0%; opacity: 0; }
-    12% { opacity: 1; }
-    45%, 55% { offset-distance: 50%; }   /* pauses at the relay, like it's being carried */
-    88% { offset-distance: 100%; opacity: 1; }
-    100% { offset-distance: 100%; opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hop { animation: none; offset-distance: 50%; opacity: 1; }
-    html { scroll-behavior: auto; }
-  }
-
-  /* ---------- sections ---------- */
-  section { padding: 72px 0; }
-  section + section { border-top: 1px solid var(--line); }
-  h2 { font-size: clamp(30px, 3.6vw, 40px); line-height: 1.15; margin: 0 0 14px; }
-  .intro { max-width: 36em; margin: 0 0 40px; }
-
-  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
-  .steps li { position: relative; padding-top: 10px; }
-  .steps .num { font-family: "Fraunces", Georgia, serif; font-variation-settings: "SOFT" 100; font-size: 40px; line-height: 1; color: var(--node-ring); }
-  .steps h3 { font-size: 21px; margin: 12px 0 6px; }
-  .steps p { margin: 0; font-size: 16px; }
-
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  .plain { list-style: none; padding: 0; margin: 0; }
-  .plain li { padding: 14px 0; border-bottom: 1px solid var(--line); }
-  .plain li:first-child { padding-top: 0; }
-  .plain strong { color: var(--ink); font-weight: 600; }
-
-  .soft-panel { background: var(--surface); border-radius: 22px; padding: 30px 30px 26px; border: 1px solid var(--line); }
-  .soft-panel h3 { font-size: 22px; margin: 0 0 10px; }
-  .soft-panel ul { margin: 0; padding-left: 20px; }
-  .soft-panel li { margin: 8px 0; }
-
-  details { border-bottom: 1px solid var(--line); padding: 18px 0; }
-  details:first-of-type { border-top: 1px solid var(--line); }
-  summary { cursor: pointer; color: var(--ink); font-weight: 600; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
-  summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 22px; line-height: 1; transition: transform .2s; }
-  details[open] summary::after { transform: rotate(45deg); }
-  details p { margin: 12px 0 0; max-width: 42em; }
-
-  .beta { text-align: left; }
-  .beta .soft-panel { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; background: var(--accent-soft); border: none; }
-  .beta .soft-panel p { margin: 6px 0 0; max-width: 34em; }
-
-  footer { padding: 36px 0 56px; color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-  footer a { color: var(--muted); }
-
-  @media (max-width: 860px) {
-    .hero { grid-template-columns: 1fr; padding-top: 16px; gap: 24px; }
-    .hero .art { order: -1; max-width: 460px; }
-    .steps { grid-template-columns: 1fr 1fr; }
-    .split { grid-template-columns: 1fr; gap: 32px; }
-  }
-  @media (max-width: 520px) {
-    .wrap { padding: 0 16px; }
-    nav .links a.hide-sm { display: none; }
-    .steps { grid-template-columns: 1fr; }
-    section { padding: 56px 0; }
-    .soft-panel { padding: 24px 20px; }
-  }
+  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.65 "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width:720px; margin:0 auto; padding:24px 24px 72px; }
+  a { color:var(--accent); text-underline-offset:3px; }
+  .back { display:inline-block; margin:8px 0 32px; color:var(--text); text-decoration:none; font-size:15px; }
+  .back:hover { color:var(--ink); }
+  h1, h2 { font-family:"Fraunces", Georgia, serif; font-variation-settings:"SOFT" 100, "opsz" 96; color:var(--ink); font-weight:500; }
+  h1 { font-size:clamp(34px, 5vw, 46px); line-height:1.1; margin:0 0 6px; }
+  h2 { font-size:22px; margin:36px 0 8px; }
+  .date { color:var(--muted); font-size:15px; margin:0 0 28px; }
+  ul { padding-left:20px; }
+  li { margin:8px 0; }
+  strong { color:var(--ink); font-weight:600; }
+  .muted { color:var(--muted); font-size:14px; margin-top:40px; padding-top:20px; border-top:1px solid var(--line); }
+  @media (max-width:520px) { main { padding:16px 16px 56px; } }
 </style>
 </head>
 <body>
-<div class="wrap">
+<main>
+  <a class="back" href="../">‹ Meshlace</a>
+  <h1>Privacy policy</h1>
+  <p class="date">Effective 10 November 2026</p>
 
-  <nav aria-label="Main">
-    <a class="brand" href="#">
-      <svg viewBox="0 0 26 26" aria-hidden="true">
-        <path d="M5 18 C 9 10, 15 9, 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".35"/>
-        <path d="M5 18 C 11 17, 16 14, 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity=".35"/>
-        <circle cx="5" cy="18" r="3" fill="#5146E8"/><circle cx="13.5" cy="12.5" r="2.4" fill="none" stroke="#5146E8" stroke-width="1.6"/><circle cx="21" cy="7" r="3" fill="#5146E8"/>
-      </svg>
-      Meshlace
-    </a>
-    <div class="links">
-      <a class="hide-sm" href="#how">How it works</a>
-      <a class="hide-sm" href="#privacy">Privacy</a>
-      <a href="#beta">Beta</a>
-    </div>
-  </nav>
+  <p>Meshlace lets phones send end-to-end encrypted messages to each other over Bluetooth, without internet,
+  SIM card or server. This page explains what that means for your data.</p>
 
-  <header class="hero">
-    <div>
-      <h1>Messages that travel from phone to phone</h1>
-      <p class="lede">Meshlace sends encrypted messages over Bluetooth. No internet, no SIM card, no account.
-        When your friend is out of reach, the phones around you carry the message along, without being able to read it.</p>
-      <div class="actions">
-        <a class="btn primary" href="#beta">Become a tester</a>
-        <a class="btn quiet" href="#how">How it works</a>
-      </div>
-      <p class="note">Android, in closed beta. iPhone later.</p>
-    </div>
+  <h2>The short version</h2>
+  <ul>
+    <li>We run <strong>no servers</strong>. There is no account, no sign-up, no phone number and no email.</li>
+    <li>We <strong>collect nothing</strong>: no analytics, no advertising, no tracking, no crash reports.</li>
+    <li>Release versions of the Android app <strong>cannot access the internet</strong> at all.</li>
+    <li>Your messages and contacts stay <strong>on your phone</strong>, encrypted.</li>
+  </ul>
 
-    <div class="art">
-      <svg class="lace" viewBox="0 0 520 330" role="img" aria-label="Phones linked like lace; a message hops from Sam to Alex through a phone in between">
-        <!-- background lace: loose threads between nearby phones -->
-        <path class="thread faint" d="M40 110 C 90 60, 150 70, 190 60"/>
-        <path class="thread faint" d="M190 60 C 260 40, 330 45, 360 30"/>
-        <path class="thread faint" d="M360 30 C 420 40, 470 60, 490 80"/>
-        <path class="thread faint" d="M40 110 C 60 170, 60 210, 70 250"/>
-        <path class="thread faint" d="M490 80 C 500 160, 480 230, 470 290"/>
-        <path class="thread faint" d="M70 250 C 140 300, 260 310, 330 285"/>
-        <path class="thread faint" d="M330 285 C 390 270, 440 285, 470 290"/>
-        <path class="thread" d="M190 60 C 230 110, 250 140, 270 175"/>
-        <path class="thread" d="M40 110 C 120 130, 200 150, 270 175"/>
-        <path class="thread" d="M270 175 C 300 230, 310 260, 330 285"/>
-        <path class="thread" d="M360 30 C 380 70, 420 85, 450 95"/>
-        <path class="thread" d="M450 95 C 470 160, 400 240, 330 285"/>
+  <h2>What stays on your phone</h2>
+  <ul>
+    <li><strong>Your identity:</strong> cryptographic keys created on your phone and the name you choose.
+      The secret keys are kept in the Android Keystore and never leave the device.</li>
+    <li><strong>Contacts and messages:</strong> stored in an encrypted database on your phone.
+      They are not included in cloud backups.</li>
+    <li><strong>A technical event log</strong> used to diagnose Bluetooth problems. It contains message
+      identifiers and random device identifiers, never message text. It stays on your phone unless you choose
+      to share it yourself from the debug screen.</li>
+  </ul>
 
-        <!-- the route this message takes -->
-        <path class="path" d="M70 250 C 150 170, 220 160, 270 175 S 390 120, 450 95"/>
+  <h2>What other phones receive</h2>
+  <ul>
+    <li><strong>Your contacts</strong> receive the messages you send them, and delivery confirmations.
+      Only they can decrypt them.</li>
+    <li><strong>Nearby phones running Meshlace</strong> may carry your messages to reach a contact who is out of range.
+      They only see encrypted data and short random addresses that change every few hours. They cannot read
+      the content, see who wrote it, or identify the recipient. Carried messages are deleted when they expire
+      (24 hours by default).</li>
+    <li>Likewise, your phone may carry encrypted messages for other people, within strict storage limits.
+      You can turn the mesh off at any time.</li>
+    <li><strong>When you pair by QR code</strong>, your name and public keys are shared with the person who scans it.</li>
+  </ul>
 
-        <circle class="node" cx="40" cy="110" r="9"/>
-        <circle class="node" cx="190" cy="60" r="8"/>
-        <circle class="node" cx="360" cy="30" r="8"/>
-        <circle class="node" cx="490" cy="80" r="8"/>
-        <circle class="node" cx="330" cy="285" r="9"/>
-        <circle class="node" cx="470" cy="290" r="8"/>
+  <h2>Permissions and why we need them</h2>
+  <ul>
+    <li><strong>Bluetooth (scan, connect, advertise):</strong> to find nearby phones and exchange encrypted messages.
+      Scan results are not used to determine your location.</li>
+    <li><strong>Location</strong> (Android 11 and older only): Android requires it for Bluetooth scanning on these versions.
+      Meshlace does not use or store your location.</li>
+    <li><strong>Camera:</strong> only to scan a contact's QR code. Nothing is recorded or stored.</li>
+    <li><strong>Notifications:</strong> to show that the mesh is running and that a new message arrived.
+      Notifications never show the sender or the text.</li>
+    <li><strong>Foreground service:</strong> to keep relaying messages while the app is in the background.</li>
+  </ul>
 
-        <circle class="node key" cx="70" cy="250" r="14"/>
-        <circle class="node" cx="270" cy="175" r="12"/>
-        <circle class="node key" cx="450" cy="95" r="14"/>
+  <h2>What we can't protect against</h2>
+  <p>People nearby with Bluetooth equipment can notice that a phone is running Meshlace and see the timing and size
+  of transmissions, though not their content. Someone with access to your unlocked phone can read your messages.
+  A contact can copy or show messages you sent them. Delivery is not guaranteed if no phone carries the message
+  in time.</p>
 
-        <text x="70" y="284" text-anchor="middle">Sam</text>
-        <text x="270" y="207" text-anchor="middle">a phone nearby</text>
-        <text x="450" y="129" text-anchor="middle">Alex</text>
+  <h2>Children</h2>
+  <p>Meshlace is not directed at children under 16.</p>
 
-        <g class="hop">
-          <circle class="halo" r="12"/>
-          <circle class="spark" r="5"/>
-        </g>
-      </svg>
-    </div>
-  </header>
-</div>
+  <h2>Deleting your data</h2>
+  <p>Uninstalling the app, or clearing its storage in Android settings, permanently deletes your identity,
+  contacts and messages from your phone. Because we hold no copy, we cannot recover them, and we have nothing
+  to delete on our side.</p>
 
-<section id="how">
-  <div class="wrap">
-    <h2>How it works</h2>
-    <p class="intro">There's no server in the middle. Each phone with Meshlace switched on becomes a small part of the network.</p>
-    <ol class="steps">
-      <li><span class="num">1</span><h3>Meet once</h3><p>One of you scans the other's code, in person, and you both check a short safety number. That's how you know it's really them.</p></li>
-      <li><span class="num">2</span><h3>Write</h3><p>Your message is encrypted on your phone before it goes anywhere. Only your friend can open it.</p></li>
-      <li><span class="num">3</span><h3>It hops</h3><p>If your friend is out of range, nearby phones keep the sealed message and pass it on when they meet someone closer.</p></li>
-      <li><span class="num">4</span><h3>Delivered</h3><p>You see when it was handed to a phone and when it actually arrived. Nothing is marked delivered unless it was.</p></li>
-    </ol>
-  </div>
-</section>
+  <h2>Changes</h2>
+  <p>If this policy changes, the new version will be published on this page with a new effective date.</p>
 
-<section id="privacy">
-  <div class="wrap split">
-    <div>
-      <h2>Private by the way it's built</h2>
-      <p class="intro">Not a promise about what we do with your data. There's simply nowhere for it to go.</p>
-    </div>
-    <ul class="plain">
-      <li><strong>No servers, no account.</strong> No phone number, no email, no sign-up.</li>
-      <li><strong>No internet.</strong> The released app doesn't even have permission to go online.</li>
-      <li><strong>End-to-end encrypted.</strong> Phones that carry your messages can't read them or tell who they're for.</li>
-      <li><strong>Encrypted on your phone too.</strong> Messages are stored encrypted and left out of cloud backups.</li>
-      <li><strong>Quiet notifications.</strong> They say "New message", never who or what.</li>
-      <li><strong>No tracking.</strong> No ads, no analytics, nothing collected. <a href="privacy/">Read the privacy policy</a>.</li>
-    </ul>
-  </div>
-</section>
+  <h2>Contact</h2>
+  <p>Questions about this policy: <a href="mailto:CONTACT-EMAIL">dev.gfe@gmail.com</a></p>
 
-<section>
-  <div class="wrap split">
-    <div>
-      <h2>Good to know</h2>
-      <p class="intro">Bluetooth has limits, and we'd rather you hear them from us.</p>
-    </div>
-    <div class="soft-panel">
-      <ul>
-        <li>Phones reach each other over a few dozen metres. Messages go further only if other Meshlace phones are around.</li>
-        <li>A message waits up to a day for a path. If none comes, it isn't delivered, and you'll see that.</li>
-        <li>Your phone relays only while Meshlace is on. After a restart, open the app once.</li>
-        <li>Android only for now. iPhones will join later, with tighter limits from Apple in the background.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Questions</h2>
-    <details>
-      <summary>Can the phones that carry my messages read them?</summary>
-      <p>No. Messages are sealed on your phone with keys only your contact has. A relaying phone sees a small encrypted package and a random address that changes every few hours.</p>
-    </details>
-    <details>
-      <summary>Does it drain the battery?</summary>
-      <p>It uses Bluetooth Low Energy, which is designed to be light. We're measuring real-world battery use during the beta, and you can switch the mesh off whenever you like.</p>
-    </details>
-    <details>
-      <summary>Who is it for?</summary>
-      <p>Anyone who needs to talk where networks don't reach or can't be trusted: hikes and mountains, festivals, travel without roaming, power cuts, or simply wanting conversations that stay between you.</p>
-    </details>
-    <details>
-      <summary>Is it free?</summary>
-      <p>Yes. There are no ads and no subscription.</p>
-    </details>
-  </div>
-</section>
-
-<section id="beta" class="beta">
-  <div class="wrap">
-    <div class="soft-panel">
-      <div>
-        <h3 class="serif">Help us test Meshlace</h3>
-        <p>We're looking for people with Android phones to try it with friends for two weeks and tell us how it goes.</p>
-      </div>
-      <a class="btn primary" href="mailto:dev.gfe@gmail.com?subject=Meshlace%20beta">Become a tester</a>
-    </div>
-  </div>
-</section>
-
-<div class="wrap">
-  <footer>
-    <span>Meshlace</span>
-    <span><a href="privacy/">Privacy policy</a></span>
-  </footer>
-</div>
+  <p class="muted">Meshlace is end-to-end encrypted using established, audited cryptographic libraries
+  (Ed25519, X25519, ChaCha20-Poly1305, HKDF-SHA-256).</p>
+</main>
 </body>
 </html>
